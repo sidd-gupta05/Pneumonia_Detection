@@ -1,0 +1,71 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# IDE settings
+.vscode/
+.idea/
+*.code-workspace
+
+# Antigravity local settings
+.antigravity/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Streamlit
+.streamlit/secrets.toml
+.streamlit/credentials.toml
+
+# Logs
+*.log
+logs/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Model training outputs
+checkpoints/
+runs/
+tensorboard/
+wandb/
+
+# Local datasets
+dataset/
+datasets/
+data/raw/
+
+# Local cache
+.cache/
+
