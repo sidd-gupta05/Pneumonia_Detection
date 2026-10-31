@@ -103,7 +103,3 @@ The CNN model provides the best performance, followed by Logistic Regression. Th
 This project demonstrates how to detect pneumonia from chest X-ray images using deep learning and traditional machine learning techniques. The Streamlit app allows users to easily upload X-ray images and get predictions using the trained models.
 
 Feel free to modify the code, train the models on new datasets, or deploy the app for real-world use.
-
-# License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
