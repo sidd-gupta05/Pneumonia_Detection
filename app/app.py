@@ -800,56 +800,36 @@ with tab_batch:
         # KPI Metrics Row
         mcol1, mcol2, mcol3, mcol4 = st.columns(4)
         with mcol1:
-            st.markdown(f"""
-                <div class="metric-box">
-                    <div class="metric-value">{total_scans}</div>
-                    <div class="metric-label">{get_svg_icon("file", color="#64748B", size=14)} Total Scans</div>
-                </div>
-            """, unsafe_allow_html=True)
+            st.markdown(f'<div class="metric-box"><div class="metric-value">{total_scans}</div><div class="metric-label">{get_svg_icon("file", color="#64748B", size=14)} Total Scans</div></div>', unsafe_allow_html=True)
         with mcol2:
-            st.markdown(f"""
-                <div class="metric-box">
-                    <div class="metric-value" style="color: #DC2626;">{cnn_pneumonia_count}</div>
-                    <div class="metric-label">{get_svg_icon("alert", color="#DC2626", size=14)} Pneumonia Cases</div>
-                </div>
-            """, unsafe_allow_html=True)
+            st.markdown(f'<div class="metric-box"><div class="metric-value" style="color: #DC2626;">{cnn_pneumonia_count}</div><div class="metric-label">{get_svg_icon("alert", color="#DC2626", size=14)} Pneumonia Cases</div></div>', unsafe_allow_html=True)
         with mcol3:
-            st.markdown(f"""
-                <div class="metric-box">
-                    <div class="metric-value" style="color: #16A34A;">{cnn_normal_count}</div>
-                    <div class="metric-label">{get_svg_icon("check", color="#16A34A", size=14)} Normal Scans</div>
-                </div>
-            """, unsafe_allow_html=True)
+            st.markdown(f'<div class="metric-box"><div class="metric-value" style="color: #16A34A;">{cnn_normal_count}</div><div class="metric-label">{get_svg_icon("check", color="#16A34A", size=14)} Normal Scans</div></div>', unsafe_allow_html=True)
         with mcol4:
-            st.markdown(f"""
-                <div class="metric-box">
-                    <div class="metric-value" style="color: #2563EB;">{agreement_rate:.0f}%</div>
-                    <div class="metric-label">{get_svg_icon("shield_check", color="#2563EB", size=14)} Model Consensus</div>
-                </div>
-            """, unsafe_allow_html=True)
+            st.markdown(f'<div class="metric-box"><div class="metric-value" style="color: #2563EB;">{agreement_rate:.0f}%</div><div class="metric-label">{get_svg_icon("shield_check", color="#2563EB", size=14)} Model Consensus</div></div>', unsafe_allow_html=True)
 
         st.markdown("---")
         st.markdown("#### Diagnostic Summary Table")
 
-        # Build custom styled table (No pyarrow dependency)
+        # Build custom styled table (No pyarrow dependency, zero indent to prevent code block)
         table_rows = []
-        html_rows = ""
+        html_rows = []
         for r in results:
-            cnn_badge = f'<span class="badge-pneumonia" style="padding: 2px 8px; font-size: 0.78rem;">{r["CNN"]}</span>' if r["CNN"] == "Pneumonia" else f'<span class="badge-normal" style="padding: 2px 8px; font-size: 0.78rem;">{r["CNN"]}</span>'
-            lr_badge = f'<span class="badge-pneumonia" style="padding: 2px 8px; font-size: 0.78rem;">{r["Logistic Regression"]}</span>' if r["Logistic Regression"] == "Pneumonia" else f'<span class="badge-normal" style="padding: 2px 8px; font-size: 0.78rem;">{r["Logistic Regression"]}</span>'
-            consensus_badge = '<span style="background: #DCFCE7; color: #166534; border: 1px solid #86EFAC; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.78rem;">Concordant</span>' if r["Agreement"] == "Yes" else '<span style="background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.78rem;">Discordant</span>'
+            cnn_badge = f'<span class="badge-pneumonia" style="padding: 3px 8px; font-size: 0.78rem;">{r["CNN"]}</span>' if r["CNN"] == "Pneumonia" else f'<span class="badge-normal" style="padding: 3px 8px; font-size: 0.78rem;">{r["CNN"]}</span>'
+            lr_badge = f'<span class="badge-pneumonia" style="padding: 3px 8px; font-size: 0.78rem;">{r["Logistic Regression"]}</span>' if r["Logistic Regression"] == "Pneumonia" else f'<span class="badge-normal" style="padding: 3px 8px; font-size: 0.78rem;">{r["Logistic Regression"]}</span>'
+            consensus_badge = '<span style="background: #DCFCE7; color: #166534; border: 1px solid #86EFAC; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.78rem;">Concordant</span>' if r["Agreement"] == "Yes" else '<span style="background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.78rem;">Discordant</span>'
             
-            html_rows += f"""
-                <tr style="border-bottom: 1px solid #E2E8F0;">
-                    <td style="padding: 10px 14px; font-weight: 700; color: #0F172A;">{r['Image']}</td>
-                    <td style="padding: 10px 14px; color: #334155;">{r['File Name']}</td>
-                    <td style="padding: 10px 14px;">{cnn_badge}</td>
-                    <td style="padding: 10px 14px; font-weight: 600; color: #0F172A;">{r['CNN Confidence']:.2f}%</td>
-                    <td style="padding: 10px 14px;">{lr_badge}</td>
-                    <td style="padding: 10px 14px; font-weight: 600; color: #0F172A;">{r['LR Confidence']:.2f}%</td>
-                    <td style="padding: 10px 14px;">{consensus_badge}</td>
-                </tr>
-            """
+            html_rows.append(
+                f'<tr style="border-bottom: 1px solid #E2E8F0;">'
+                f'<td style="padding: 10px 14px; font-weight: 700; color: #0F172A;">{r["Image"]}</td>'
+                f'<td style="padding: 10px 14px; color: #334155;">{r["File Name"]}</td>'
+                f'<td style="padding: 10px 14px;">{cnn_badge}</td>'
+                f'<td style="padding: 10px 14px; font-weight: 600; color: #0F172A;">{r["CNN Confidence"]:.2f}%</td>'
+                f'<td style="padding: 10px 14px;">{lr_badge}</td>'
+                f'<td style="padding: 10px 14px; font-weight: 600; color: #0F172A;">{r["LR Confidence"]:.2f}%</td>'
+                f'<td style="padding: 10px 14px;">{consensus_badge}</td>'
+                f'</tr>'
+            )
             table_rows.append({
                 "Scan Identifier": r["Image"],
                 "File Name": r["File Name"],
@@ -860,26 +840,25 @@ with tab_batch:
                 "Model Consensus": "Concordant" if r["Agreement"] == "Yes" else "Discordant"
             })
         
-        custom_table_html = f"""
-            <div style="overflow-x: auto; border: 1px solid #E2E8F0; border-radius: 8px; margin-bottom: 20px; background: #FFFFFF;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
-                    <thead>
-                        <tr style="background-color: #F8FAFC; border-bottom: 2px solid #E2E8F0; color: #475569;">
-                            <th style="padding: 12px 14px; font-weight: 700;">Scan</th>
-                            <th style="padding: 12px 14px; font-weight: 700;">File Name</th>
-                            <th style="padding: 12px 14px; font-weight: 700;">CNN Verdict</th>
-                            <th style="padding: 12px 14px; font-weight: 700;">CNN Confidence</th>
-                            <th style="padding: 12px 14px; font-weight: 700;">LR Verdict</th>
-                            <th style="padding: 12px 14px; font-weight: 700;">LR Confidence</th>
-                            <th style="padding: 12px 14px; font-weight: 700;">Consensus</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {html_rows}
-                    </tbody>
-                </table>
-            </div>
-        """
+        body_rows_markup = "".join(html_rows)
+        custom_table_html = (
+            '<div style="overflow-x: auto; border: 1px solid #E2E8F0; border-radius: 8px; margin-bottom: 20px; background: #FFFFFF;">'
+            '<table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">'
+            '<thead>'
+            '<tr style="background-color: #F8FAFC; border-bottom: 2px solid #E2E8F0; color: #475569;">'
+            '<th style="padding: 12px 14px; font-weight: 700;">Scan</th>'
+            '<th style="padding: 12px 14px; font-weight: 700;">File Name</th>'
+            '<th style="padding: 12px 14px; font-weight: 700;">CNN Verdict</th>'
+            '<th style="padding: 12px 14px; font-weight: 700;">CNN Confidence</th>'
+            '<th style="padding: 12px 14px; font-weight: 700;">LR Verdict</th>'
+            '<th style="padding: 12px 14px; font-weight: 700;">LR Confidence</th>'
+            '<th style="padding: 12px 14px; font-weight: 700;">Consensus</th>'
+            '</tr>'
+            '</thead>'
+            f'<tbody>{body_rows_markup}</tbody>'
+            '</table>'
+            '</div>'
+        )
         st.markdown(custom_table_html, unsafe_allow_html=True)
 
         df_results = pd.DataFrame(table_rows)
